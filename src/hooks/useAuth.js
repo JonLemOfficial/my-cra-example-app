@@ -34,7 +34,7 @@ function useAuth() {
     return data?.accessToken || null;
   };
 
-  const _loginRegisterActions = async ( endpoint, data, callback ) => {
+  const _authenticationAction = async ( endpoint, data, callback ) => {
     try {
       const response = await axios.post(BACKEND_HOST + `/api/${endpoint}`, data, {
         withCredentials: true
@@ -49,11 +49,11 @@ function useAuth() {
   };
 
   const register = ({ fullname, username, email, password }, callback ) => {
-    _loginRegisterActions('register', { fullname, username, email, password }, callback);
+    _authenticationAction('register', { fullname, username, email, password }, callback);
   };
 
   const logIn = async ({ username, password, rememberMe }, callback ) => {
-    _loginRegisterActions('login', { username, password, rememberMe }, callback);
+    _authenticationAction('login', { username, password, rememberMe }, callback);
   };
 
   const logOut = async () => {
