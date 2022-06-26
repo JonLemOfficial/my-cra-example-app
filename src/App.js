@@ -21,7 +21,7 @@ const App = () => {
       <NotificationContainer/>
       <Routes>
         
-        <Route element={<Redirecter/>}/>
+        <Route element={<Redirecter/>}>
           <Route path="/" element={<HomePage/>}/>
           <Route path="/login" element={<LoginPage/>}/>
           <Route path="/register" element={<RegisterPage/>}/>
