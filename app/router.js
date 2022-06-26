@@ -103,61 +103,55 @@ apiRouter.post("/login", (req, res) => {
   authenticate(req, res);
 });
 
-apiRouter.post("/register", async (req, res) => {
+// apiRouter.post("/register", async (req, res) => {
 
-  const {
-    fullname,
-    username,
-    email,
-    password
-  } = req.body;
+//   const {
+//     fullname,
+//     username,
+//     email,
+//     password
+//   } = req.body;
 
-  try {
-    const user = await users.findOne({
-      where: {
-        [Op.or]: [
-          { username },
-          { email }
-        ]    
-      }
-    });
+//   try {
+//     const user = await users.findOne({
+//       where: {
+//         [Op.or]: [
+//           { username },
+//           { email }
+//         ]    
+//       }
+//     });
 
-    if ( !user ) {
-      let hashedPassword = bcryptjs.hashSync(
-        password,
-        bcryptjs.genSaltSync(10)
-      );
+//     if ( !user ) {
+//       let hashedPassword = bcryptjs.hashSync(
+//         password,
+//         bcryptjs.genSaltSync(10)
+//       );
       
-      let newUser = await users.create({
-        fullname,
-        username,
-        email,
-        password: hashedPassword,
-        role: 'client'
-      });
+//       let newUser = await users.create({
+//         fullname,
+//         username,
+//         email,
+//         password: hashedPassword,
+//         role: 'client'
+//       });
 
-      res.json({
-        newUser
-      });
-    } else {
-      // throw 'user exists' error
-      res.json({
-        error: {
-          hasError: true,
-          msg: 'Registry failed, User already exists',
-        }
-      });
-    }
-  } catch ( err ) {
-    console.log(err);
-    // res.json({
-    //   error: {
-    //     hasError: true,
-    //     msg: 'Registry failed, User exists',
-    //   }
-    // });
-  }
-});
+//       res.json({
+//         newUser
+//       });
+//     } else {
+//       // throw 'user exists' error
+//       res.json({
+//         error: {
+//           hasError: true,
+//           msg: 'Registry failed, User already exists',
+//         }
+//       });
+//     }
+//   } catch ( err ) {
+//     console.log(err);
+//   }
+// });
 
 apiRouter.get('/logout', (req, res) => {
   
