@@ -43,11 +43,9 @@ const ChatContainer = ({ content, loading, chat }) => {
     try {
       const { data } = await proxyClient(`/api/messages?from=${authData.user.id}&to=${chat.id}`);
       if ( data ) {
-        console.log(data);
         const sortedMessages = _.sortBy(data, message => {
           return new Date(message.sent_at);
         });
-        console.log(sortedMessages);
         setMessages(sortedMessages.map(message => ({
           ...message,
           fromSelf: message.author === authData.user.id ? true : false
