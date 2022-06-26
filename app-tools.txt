@@ -1,0 +1,10 @@
+react
+express
+jwt
+passport
+sequelize
+mysql
+sass
+bootstrap
+axios
+socket.io
