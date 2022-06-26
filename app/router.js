@@ -94,7 +94,7 @@ apiRouter.post("/login", (req, res) => {
       res.cookie('jwt', refreshToken, {
         httpOnly: true,
         path: '/',
-        ...isProd ? { sameSite: 'None' } : {},
+        // ...isProd ? { sameSite: 'None' } : {},
         secure: isProd ? true : false,
         maxAge: 1000 * 60 * 60 * 90  // 90 days
       });
