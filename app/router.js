@@ -39,7 +39,9 @@ apiRouter.get('/refresh', (req, res) => {
             res.clearCookie('jwt', {
               httpOnly: true,
               path: '/',
-              secure: isProd ? true : false
+              ...isProd ? { sameSite: 'None' } : {},
+              secure: isProd ? true : false,
+              maxAge: 1000 * 60 * 60 * 90  // 90 days
             });
           }
         } catch (err) {
@@ -94,7 +96,7 @@ apiRouter.post("/login", (req, res) => {
       res.cookie('jwt', refreshToken, {
         httpOnly: true,
         path: '/',
-        // ...isProd ? { sameSite: 'None' } : {},
+        ...isProd ? { sameSite: 'None' } : {},
         secure: isProd ? true : false,
         maxAge: 1000 * 60 * 60 * 90  // 90 days
       });
@@ -173,7 +175,9 @@ apiRouter.get('/logout', (req, res) => {
   res.clearCookie('jwt', {
     httpOnly: true,
     path: '/',
-    secure: isProd ? true : false
+    ...isProd ? { sameSite: 'None' } : {},
+    secure: isProd ? true : false,
+    maxAge: 1000 * 60 * 60 * 90  // 90 days
   });
   res.sendStatus(204);
 });
