@@ -6,6 +6,14 @@ const { Op } = require('sequelize')
 const { messages, users, tokens } = require('../config/db/models');
 
 const isProd = process.env.NODE_ENV === 'production'
+const jwtCookieOptions = {
+  httpOnly: true,
+  path: '/',
+  ...isProd ? { sameSite: 'None' } : {},
+  secure: isProd ? true : false,
+  maxAge: 1000 * 60 * 60 * 90  // 90 days
+};
+
 const apiRouter = Router();
 
 apiRouter.get("/", (req, res) => {
@@ -36,13 +44,7 @@ apiRouter.get('/refresh', (req, res) => {
             tokens.update({ status: 'expired', closed_at: new Date(Date.now()) }, {
               where: { token: foundToken.token }
             });
-            res.clearCookie('jwt', {
-              httpOnly: true,
-              path: '/',
-              ...isProd ? { sameSite: 'None' } : {},
-              secure: isProd ? true : false,
-              maxAge: 1000 * 60 * 60 * 90  // 90 days
-            });
+            res.clearCookie('jwt', jwtCookieOptions);
           }
         } catch (err) {
           console.log(err);
@@ -93,13 +95,7 @@ apiRouter.post("/login", (req, res) => {
         generated_by: user.id,
         sent_as: 'cookie'
       });
-      res.cookie('jwt', refreshToken, {
-        httpOnly: true,
-        path: '/',
-        ...isProd ? { sameSite: 'None' } : {},
-        secure: isProd ? true : false,
-        maxAge: 1000 * 60 * 60 * 90  // 90 days
-      });
+      res.cookie('jwt', refreshToken, jwtCookieOptions);
       return res.json({
         info,
         accessToken,
@@ -111,55 +107,50 @@ apiRouter.post("/login", (req, res) => {
   authenticate(req, res);
 });
 
-// apiRouter.post("/register", async (req, res) => {
+apiRouter.post("/register", async (req, res) => {
 
-//   const {
-//     fullname,
-//     username,
-//     email,
-//     password
-//   } = req.body;
+  const { fullname, username, email, password } = req.body;
 
-//   try {
-//     const user = await users.findOne({
-//       where: {
-//         [Op.or]: [
-//           { username },
-//           { email }
-//         ]    
-//       }
-//     });
+  try {
+    const user = await users.findOne({
+      where: {
+        [Op.or]: [
+          { username },
+          { email }
+        ]    
+      }
+    });
 
-//     if ( !user ) {
-//       let hashedPassword = bcryptjs.hashSync(
-//         password,
-//         bcryptjs.genSaltSync(10)
-//       );
+    if ( !user ) {
+      let hashedPassword = bcryptjs.hashSync(
+        password,
+        bcryptjs.genSaltSync(10)
+      );
       
-//       let newUser = await users.create({
-//         fullname,
-//         username,
-//         email,
-//         password: hashedPassword,
-//         role: 'client'
-//       });
+      let newUser = await users.create({
+        fullname,
+        username,
+        email,
+        password: hashedPassword,
+        role: 'client'
+      });
 
-//       res.json({
-//         newUser
-//       });
-//     } else {
-//       // throw 'user exists' error
-//       res.json({
-//         error: {
-//           hasError: true,
-//           msg: 'Registry failed, User already exists',
-//         }
-//       });
-//     }
-//   } catch ( err ) {
-//     console.log(err);
-//   }
-// });
+      res.json({
+        newUser
+      });
+    } else {
+      // throw 'user exists' error
+      res.json({
+        error: {
+          hasError: true,
+          msg: 'Registry failed, User already exists',
+        }
+      });
+    }
+  } catch ( err ) {
+    console.log(err);
+  }
+});
 
 apiRouter.get('/logout', (req, res) => {
   
@@ -172,13 +163,7 @@ apiRouter.get('/logout', (req, res) => {
       token: refreshToken
     }
   });
-  res.clearCookie('jwt', {
-    httpOnly: true,
-    path: '/',
-    ...isProd ? { sameSite: 'None' } : {},
-    secure: isProd ? true : false,
-    maxAge: 1000 * 60 * 60 * 90  // 90 days
-  });
+  res.clearCookie('jwt', jwtCookieOptions);
   res.sendStatus(204);
 });
 
