@@ -39,7 +39,6 @@ apiRouter.get('/refresh', (req, res) => {
             res.clearCookie('jwt', {
               httpOnly: true,
               path: '/',
-              domain: isProd ? 'https://unergapp.herokuapp.com' : 'http://localhost:3000',
               secure: isProd ? true : false
             });
           }
@@ -171,7 +170,11 @@ apiRouter.get('/logout', (req, res) => {
       token: refreshToken
     }
   });
-  res.clearCookie('jwt', { httpOnly: true, path: '/', secure: false });
+  res.clearCookie('jwt', {
+    httpOnly: true,
+    path: '/',
+    secure: isProd ? true : false
+  });
   res.sendStatus(204);
 });
 
