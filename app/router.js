@@ -35,7 +35,11 @@ apiRouter.get('/refresh', (req, res) => {
             tokens.update({ status: 'expired', closed_at: new Date(Date.now()) }, {
               where: { token: foundToken.token }
             });
-            res.clearCookie('jwt', { httpOnly: true, path: '/', secure: false });
+            res.clearCookie('jwt', {
+              httpOnly: true,
+              path: '/',
+              secure: process.env.NODE_ENV === 'production' ? true : false
+            });
           }
         } catch (err) {
           console.log(err);
@@ -74,7 +78,7 @@ apiRouter.post("/login", (req, res) => {
     req.logIn(user, err => {
       if ( err ) throw err;
       const refreshToken = jwt.sign(user, 'my-cra-app', {
-        expiresIn: req.body.rememberMe ? '30d' : '90s'
+        expiresIn: req.body.rememberMe ? '90d' : '7d'
       });
       const accessToken = jwt.sign(user, 'my-cra-app-accs', { expiresIn: '2h'});
       tokens.create({
@@ -89,6 +93,7 @@ apiRouter.post("/login", (req, res) => {
       res.cookie('jwt', refreshToken, {
         httpOnly: true,
         path: '/',
+        ...process.env.NODE_ENV === 'production' ? { sameSite: 'None' } : {},
         secure: process.env.NODE_ENV === 'production' ? true : false,
         maxAge: 1000 * 60 * 60 * 90  // 90 days
       });
