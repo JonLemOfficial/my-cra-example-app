@@ -32,7 +32,7 @@ const Notification = ({ index, title, description, type, duration }) => {
   );
 };
 
-const NotificationContainer = () => {
+const NotificationsContainer = () => {
 
   const { notifications } = useNotificationManager();
   const [ totalNotifications, setTotalNotifications ] = useState(notifications.length);
@@ -64,4 +64,4 @@ const NotificationContainer = () => {
   );
 };
 
-export default NotificationContainer;
+export default NotificationsContainer;

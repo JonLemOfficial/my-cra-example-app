@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { NotificationContainer, AuthVerifier, Redirecter } from './components'
+import { NotificationsContainer, AuthVerifier } from './components'
 import { useAuth } from './hooks';
 import {
   HomePage,
@@ -18,14 +18,12 @@ const App = () => {
 
   return (
     <Router basename="/">
-      <NotificationContainer/>
+      <NotificationsContainer/>
       <Routes>
         
-        <Route element={<Redirecter/>}>
-          <Route path="/" element={<HomePage/>}/>
-          <Route path="/login" element={<LoginPage/>}/>
-          <Route path="/register" element={<RegisterPage/>}/>
-        </Route>
+        <Route path="/" element={<HomePage/>}/>
+        <Route path="/login" element={<LoginPage/>}/>
+        <Route path="/register" element={<RegisterPage/>}/>
         
         {/* Protected Routes (allowed only for authenticated users) */}
         <Route element={<AuthVerifier/>}>
