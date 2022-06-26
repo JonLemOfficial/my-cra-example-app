@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Row, Col, Card, Form, Button } from 'react-bootstrap';
+import _ from 'lodash';
 import { io } from 'socket.io-client';
 import { useAuth, useProxyClient } from '../hooks';
 import { Spinner } from '../components';
@@ -42,7 +43,10 @@ const ChatContainer = ({ content, loading, chat }) => {
     try {
       const { data } = await proxyClient(`/api/messages?from=${authData.user.id}&to=${chat.id}`);
       if ( data ) {
-        setMessages(data.map(message => ({
+        const sortedMessages = _.sortBy(data, message => {
+          return new Date(message.sent_at);
+        });
+        setMessages(sortedMessages.map(message => ({
           ...message,
           fromSelf: message.author === authData.user.id ? true : false
         })));
