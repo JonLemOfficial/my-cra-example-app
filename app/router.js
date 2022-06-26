@@ -95,7 +95,6 @@ apiRouter.post("/login", (req, res) => {
       res.cookie('jwt', refreshToken, {
         httpOnly: true,
         path: '/',
-        domain: isProd ? 'unergapp.herokuapp.com' : 'localhost:3000',
         ...isProd ? { sameSite: 'None' } : {},
         secure: isProd ? true : false,
         maxAge: 1000 * 60 * 60 * 90  // 90 days
