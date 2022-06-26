@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { NotificationContainer, AuthVerifier } from './components'
+import { NotificationContainer, AuthVerifier, Redirecter } from './components'
 import { useAuth } from './hooks';
 import {
   HomePage,
   LoginPage,
-  // RegisterPage,
+  RegisterPage,
   Error404Page,
   ChatPage,
   SettingsPage
@@ -21,9 +21,11 @@ const App = () => {
       <NotificationContainer/>
       <Routes>
         
-        <Route path="/" element={<HomePage/>}/>
-        <Route path="/login" element={<LoginPage/>}/>
-        {/* <Route path="/register" element={<RegisterPage/>}/> */}
+        <Route element={<Redirecter/>}/>
+          <Route path="/" element={<HomePage/>}/>
+          <Route path="/login" element={<LoginPage/>}/>
+          <Route path="/register" element={<RegisterPage/>}/>
+        </Route>
         
         {/* Protected Routes (allowed only for authenticated users) */}
         <Route element={<AuthVerifier/>}>

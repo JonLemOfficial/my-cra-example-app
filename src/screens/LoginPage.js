@@ -47,7 +47,31 @@ const LoginPage = () => {
     const urlQuery = qs.parse(
       location.search.split("").slice(1).join("")
     );  // removes the '?' character at the beggining of the query params
-    urlQuery.redirectTo && setRedirectTo(urlQuery.redirectTo); 
+    urlQuery.redirectTo && setRedirectTo(urlQuery.redirectTo);
+
+    if ( urlQuery?.auto === 'true' && urlQuery?.as ) {
+      logIn({ username: urlQuery.as, password: '123456', rememberMe: false }, ( err, response ) => {
+      if ( err ) {
+        setError({
+          hasError: true,
+          msg: err.message
+        });
+        setShowError(true);
+        setSubmitting(false);
+      } else if ( response?.data?.accessToken ) {
+        notificationManager.add('Login successfully', 'Wellcome ' + response?.data?.user?.username, 'success', 3000);
+        setAuthData({ accessToken: response.data.accessToken, isAuthenticated: true, user: response.data.user });
+      } else {
+        setError({
+          hasError: response?.data?.error?.hasError,
+          msg: response?.data?.error?.msg
+        });
+        setShowError(true);
+        setSubmitting(false);
+        removeAuthData();
+      }
+    });      
+    }
   }, []);
 
   return authData?.isAuthenticated ? <Navigate to={ redirectTo ? redirectTo : "/chat" } state={{ from: location }} replace /> : (
@@ -86,9 +110,9 @@ const LoginPage = () => {
                     <Button type="submit" className="d-block mx-auto" variant="primary" {...( submitting || !username || !password ) ? { disabled: true } : null}>
                       { submitting ? 'Submitting' : 'Log in' }
                     </Button>
-                    {/* <div className="my-3" style={{ textAlign: 'left' }}>
+                    <div className="my-3" style={{ textAlign: 'left' }}>
                       <p>Don't have an account <Link to="/register">create one</Link></p>
-                    </div>*/}
+                    </div>
                   </Form.Group>
                 </Form>
               </Card.Body>
