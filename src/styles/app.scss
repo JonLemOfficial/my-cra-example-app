@@ -1,0 +1,115 @@
+@import "bootstrap/scss/bootstrap.scss";
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/bootstrap-reboot.scss";
+@import "bootstrap/scss/bootstrap-utilities.scss";
+@import "font-awesome/scss/font-awesome.scss";
+
+$fa-font-path:        "font-awesome/fonts" !default;
+
+.content {
+  
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+  justify-content: center;
+  // font-size: calc(10px + 2vmin);
+}
+
+.mh-80 {
+  min-height: 80vh;
+  max-height: 80vh;
+}
+
+.user-settings-dropdown .dropdown-toggle {
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.spinner {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  margin: auto;
+  border: 4px solid #0d6efd;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spinner-rotate 1s linear infinite;
+}
+
+.userchat {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+
+
+  & .user {
+    border: none;
+    padding: .5rem 1rem;
+    background-color: #ffffff;
+
+    &:hover {
+      background-color: #fafafa;
+      cursor: pointer;
+    }
+    
+    &.selected {
+      background-color: #f2f2f2;
+    }
+  }
+}
+
+.avatar {
+  display: inline-block;
+  padding: 0.5rem 0;
+  margin-right: .8rem;
+}
+
+.message {
+  display: flex;
+  margin-bottom: .5rem;
+
+  &.sent {
+    flex-direction: row-reverse; 
+    
+    & .msg-content {
+      padding: .5rem .7rem;
+      border-radius: 5px;
+      background-color: #0d6efd;
+      color: #ffffff;
+
+      & p {
+        padding: 0;
+        margin: 0;
+      }
+    }
+  }
+
+  &.received {
+    flex-direction: row;
+
+    & .msg-content {
+      padding: .5rem .7rem;
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      color: #000000;
+
+      & p {
+        padding: 0;
+        margin: 0;
+      }
+    }
+  }
+
+}
+
+@keyframes spinner-rotate {
+  0% {
+      transform: rotate(0deg);
+  } 100% {
+      transform: rotate(365deg);
+  }
+}
