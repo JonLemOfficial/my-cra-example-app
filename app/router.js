@@ -5,6 +5,7 @@ const passport = require('passport');
 const { Op } = require('sequelize')
 const { messages, users, tokens } = require('../config/db/models');
 
+const isProd = process.env.NODE_ENV === 'production'
 const apiRouter = Router();
 
 apiRouter.get("/", (req, res) => {
@@ -38,7 +39,8 @@ apiRouter.get('/refresh', (req, res) => {
             res.clearCookie('jwt', {
               httpOnly: true,
               path: '/',
-              secure: process.env.NODE_ENV === 'production' ? true : false
+              domain: isProd ? 'https://unergapp.herokuapp.com' : 'http://localhost:3000',
+              secure: isProd ? true : false
             });
           }
         } catch (err) {
@@ -93,8 +95,9 @@ apiRouter.post("/login", (req, res) => {
       res.cookie('jwt', refreshToken, {
         httpOnly: true,
         path: '/',
-        ...process.env.NODE_ENV === 'production' ? { sameSite: 'None' } : {},
-        secure: process.env.NODE_ENV === 'production' ? true : false,
+        domain: isProd ? 'https://unergapp.herokuapp.com' : 'http://localhost:3000',
+        ...isProd ? { sameSite: 'None' } : {},
+        secure: isProd ? true : false,
         maxAge: 1000 * 60 * 60 * 90  // 90 days
       });
       return res.json({
