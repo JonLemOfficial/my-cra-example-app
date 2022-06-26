@@ -89,7 +89,7 @@ apiRouter.post("/login", (req, res) => {
       res.cookie('jwt', refreshToken, {
         httpOnly: true,
         path: '/',
-        secure: false,
+        secure: process.env.NODE_ENV === 'production' ? true : false,
         maxAge: 1000 * 60 * 60 * 90  // 90 days
       });
       return res.json({
