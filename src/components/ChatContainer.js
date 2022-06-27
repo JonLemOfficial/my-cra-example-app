@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { Row, Col, Card, Form, Button, NavDropdown } from 'react-bootstrap';
 import _ from 'lodash';
 import { io } from 'socket.io-client';
@@ -83,10 +84,12 @@ const ChatContainer = ({ content, loading, chat, enableUserOptions }) => {
         <h4 className={enableUserOptions ? '' : 'text-start'}>
           {chat?.username}
         </h4>
-        <NavDropdown className="user-settings-dropdown" title={authData.user.username} menuVariant="light">
-          <NavDropdown.Item href="/settings">Settings</NavDropdown.Item>
-          <NavDropdown.Item href="#" onClick={logOut}>Log Out</NavDropdown.Item>
-        </NavDropdown>
+        {enableUserOptions ? (
+          <NavDropdown className="user-settings-dropdown" title={authData.user.username} menuVariant="light">
+            <Link to="/settings" className="dropdown-item">Settings</Link>
+            <NavDropdown.Item href="#" onClick={logOut}>Log Out</NavDropdown.Item>
+          </NavDropdown>
+        ) : null}
       </Card.Header>
       <Card.Body className={`overflow-scroll ${ messages.length === 0 ? 'd-flex flex-direction-column align-items-center' : '' }`}>
         {messages.length === 0 && (
