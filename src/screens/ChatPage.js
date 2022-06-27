@@ -68,7 +68,7 @@ const ChatPage = () => {
                 <Card.Header className="d-flex flex-row justify-content-between">
                   <h4>Contacts</h4>
                   <NavDropdown className="user-settings-dropdown" title={authData.user.username} menuVariant="light">
-                    <NavDropdown.Item href="/settings">Settings</NavDropdown.Item>
+                    <Link to="/settings" className="dropdown-item">Settings</Link>
                     <NavDropdown.Item href="#" onClick={logOut}>Log Out</NavDropdown.Item>
                   </NavDropdown>
                 </Card.Header>
