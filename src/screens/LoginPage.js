@@ -75,7 +75,10 @@ const LoginPage = () => {
   }, []);
 
   return authData?.isAuthenticated
-    ? <Navigate to={ redirectTo ? redirectTo : "/chat" } state={{ from: location }} replace />
+    ? <Navigate
+        to={ redirectTo ? redirectTo : `/chat${urlQuery.onlyWith ? ( '?onlyWith=' + urlQuery.onlyWith ) : ''}` }
+        state={{ from: location }}
+        replace />
     : urlQuery?.auto
       ? null
       : (
