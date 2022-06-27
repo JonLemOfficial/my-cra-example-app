@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { Row, Col, Card, Container, Nav, NavDropdown } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import qs from 'qs';
 import { useAuth, useProxyClient } from '../hooks';
 import { Spinner, ContactList, ChatContainer } from '../components';
@@ -13,6 +13,7 @@ const ChatPage = () => {
   const [ currentChat, setCurrentChat ] = useState(null);
   const { authData, logOut } = useAuth();
   const proxyClient = useProxyClient(true);
+  const location = useLocation();
   const urlQuery = qs.parse(
     location.search.split("").slice(1).join("")
   );  // removes the '?' character at the beggining of the query params
