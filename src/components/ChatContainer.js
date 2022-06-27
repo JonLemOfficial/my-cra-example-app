@@ -11,15 +11,7 @@ const ChatContainer = ({ content, loading, chat }) => {
   const proxyClient = useProxyClient(true);
   const { authData } = useAuth();
   const [ message, setMessage ] = useState('');
-  const [ messages, setMessages ] = useState([
-    // { message: "Hi", fromSelf: true },
-    // { message: "Hello", fromSelf: false },
-    // { message: "How are you?", fromSelf: true },
-    // { message: "I'm good, thank you for asking and you?", fromSelf: false },
-    // { message: "I'm fine too, what you gonna do today ", fromSelf: true },
-    // { message: "I don't know, maybe watch some movies at home or walking in central park", fromSelf: false },
-    // { message: "That sounds great", fromSelf: true },
-  ]);
+  const [ messages, setMessages ] = useState([]);
   const scrollRef = useRef(null);
   const socket = useRef(null);
   
