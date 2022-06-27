@@ -108,17 +108,18 @@ const ChatContainer = ({ content, loading, chat, enableUserOptions }) => {
       </Card.Body>
       <Card.Footer>
         <Form onSubmit={sendMessage}>
-          <Row>
-            <Col md={11} className="px-0">
+          <div className="d-flex flex-row justify-content-between">
+            <div className="px-0" style={{ width: "90%" }}>
               <Form.Group className="w-100">
                 <Form.Control
-                  type="text"
+                  as="textarea"
+                  rows={1}
                   placeholder="Type here your message"
                   value={message}
                   onChange={e => setMessage(e.target.value)}/>
               </Form.Group>
-            </Col>
-            <Col md={1} className="pe-2">
+            </div>
+            <div className="px-0" style={{ width: "9%", maxWidth: '44px' }}>
               <Button
                 variant="primary"
                 type="submit"
@@ -126,8 +127,8 @@ const ChatContainer = ({ content, loading, chat, enableUserOptions }) => {
                 {...message ? null : { disabled: true } }>
                 <i className="fa fa-arrow-right"></i>
               </Button>
-            </Col>
-          </Row>
+            </div>
+          </div>
         </Form>
       </Card.Footer>
     </>
