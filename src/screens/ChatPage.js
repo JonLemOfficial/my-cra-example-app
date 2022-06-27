@@ -67,12 +67,10 @@ const ChatPage = () => {
               <Card className="mh-80">
                 <Card.Header className="d-flex flex-row justify-content-between">
                   <h4>Contacts</h4>
-                  <Nav>
-                    <NavDropdown className="user-settings-dropdown" title={authData.user.username} menuVariant="light">
-                      <NavDropdown.Item href="/settings">Settings</NavDropdown.Item>
-                      <NavDropdown.Item href="#" onClick={logOut}>Log Out</NavDropdown.Item>
-                    </NavDropdown>
-                  </Nav>
+                  <NavDropdown className="user-settings-dropdown" title={authData.user.username} menuVariant="light">
+                    <NavDropdown.Item href="/settings">Settings</NavDropdown.Item>
+                    <NavDropdown.Item href="#" onClick={logOut}>Log Out</NavDropdown.Item>
+                  </NavDropdown>
                 </Card.Header>
                 <Card.Body
                   className={`py-0 px-0 overflow-scroll ${loading || userContacts.length === 0 ? 'd-flex flex-direction-column align-items-center' : ''}`}>
@@ -87,7 +85,7 @@ const ChatPage = () => {
                 loading={loading}
                 content={content}
                 chat={currentChat}
-                {...urlQuery?.onClick ? { enableUserOptions: true } : null}/>
+                {...urlQuery?.onlyWith ? { enableUserOptions: true } : null}/>
             </Card>
           </Col>
         </Row>

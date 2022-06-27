@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Row, Col, Card, Form, Button, Nav, NavDropdown } from 'react-bootstrap';
+import { Row, Col, Card, Form, Button, NavDropdown } from 'react-bootstrap';
 import _ from 'lodash';
 import { io } from 'socket.io-client';
 import { useAuth, useProxyClient } from '../hooks';
@@ -83,12 +83,10 @@ const ChatContainer = ({ content, loading, chat, enableUserOptions }) => {
         <h4 className={enableUserOptions ? '' : 'text-start'}>
           {chat?.username}
         </h4>
-        <Nav>
-          <NavDropdown className="user-settings-dropdown" title={authData.user.username} menuVariant="light">
-            <NavDropdown.Item href="/settings">Settings</NavDropdown.Item>
-            <NavDropdown.Item href="#" onClick={logOut}>Log Out</NavDropdown.Item>
-          </NavDropdown>
-        </Nav>
+        <NavDropdown className="user-settings-dropdown" title={authData.user.username} menuVariant="light">
+          <NavDropdown.Item href="/settings">Settings</NavDropdown.Item>
+          <NavDropdown.Item href="#" onClick={logOut}>Log Out</NavDropdown.Item>
+        </NavDropdown>
       </Card.Header>
       <Card.Body className={`overflow-scroll ${ messages.length === 0 ? 'd-flex flex-direction-column align-items-center' : '' }`}>
         {messages.length === 0 && (
