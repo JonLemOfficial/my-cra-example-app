@@ -86,7 +86,8 @@ const ChatPage = () => {
               <ChatContainer
                 loading={loading}
                 content={content}
-                chat={currentChat}/>
+                chat={currentChat}
+                {...urlQuery?.onClick ? { enableUserOptions: true } : null}/>
             </Card>
           </Col>
         </Row>

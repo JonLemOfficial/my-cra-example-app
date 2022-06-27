@@ -5,11 +5,11 @@ import { io } from 'socket.io-client';
 import { useAuth, useProxyClient } from '../hooks';
 import { Spinner } from '../components';
 
-const ChatContainer = ({ content, loading, chat }) => {
+const ChatContainer = ({ content, loading, chat, enableUserOptions }) => {
   
   const isProd = process.env.NODE_ENV === 'production';
   const proxyClient = useProxyClient(true);
-  const { authData } = useAuth();
+  const { authData, logOut } = useAuth();
   const [ message, setMessage ] = useState('');
   const [ messages, setMessages ] = useState([]);
   const scrollRef = useRef(null);
@@ -79,10 +79,16 @@ const ChatContainer = ({ content, loading, chat }) => {
     </Card.Body>
   ) || (
     <>
-      <Card.Header>
-        <h4 className="text-start">
+      <Card.Header {...enableUserOptions ? {className: "d-flex flex-row justify-content-between"} : null}>
+        <h4 className={enableUserOptions ? '' : 'text-start'}>
           {chat?.username}
         </h4>
+        <Nav>
+          <NavDropdown className="user-settings-dropdown" title={authData.user.username} menuVariant="light">
+            <NavDropdown.Item href="/settings">Settings</NavDropdown.Item>
+            <NavDropdown.Item href="#" onClick={logOut}>Log Out</NavDropdown.Item>
+          </NavDropdown>
+        </Nav>
       </Card.Header>
       <Card.Body className={`overflow-scroll ${ messages.length === 0 ? 'd-flex flex-direction-column align-items-center' : '' }`}>
         {messages.length === 0 && (
