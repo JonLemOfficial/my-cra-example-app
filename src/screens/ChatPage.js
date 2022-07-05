@@ -37,7 +37,7 @@ const ChatPage = () => {
   };
 
   const handleChatChange = ( contact, index ) => {
-    setUserContacts(userContacts.map((contact, i) => ({ ...contact, selected: index === i ? true : false })));
+    setUserContacts(userContacts.map((ctc, i) => ({ ...ctc, selected: index === i ? true : false })));
     setCurrentChat(contact);
   };
 
